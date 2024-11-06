@@ -1,0 +1,3 @@
+[submodule "finish/blockchain/voting_app/lib/forge-std"]
+	path = finish/blockchain/voting_app/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
