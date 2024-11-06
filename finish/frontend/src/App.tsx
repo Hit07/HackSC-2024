@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { ethers } from 'ethers';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
+import vote from './Voting.json';
 
 function App() {
   const [candidate1, setCandidate1] = useState('');
@@ -11,32 +13,71 @@ function App() {
   const[votingStarted, setVotingStarted] = useState(false);
   const [votes, setVotes] = useState<Record<string, number>>({});
   const [winner, setWinner] = useState('');
+  const [account, setCurrentAccount] = useState<string>("");
+  const [contract, setContract] = useState<ethers.Contract | null>(null);
+  const contractAddress = "0x8464135c8F25Da09e49BC8782676a84730C318bC";
+  let signer;
 
   const start_voting = () => {
+    if (contract) {
+      contract.start_voting(candidate1, candidate2);
+    } else {
+      console.error('Contract is not defined');
+    }
     console.log('Voting has started');
     setVotingStarted(true);
-    setVotes({
-      [candidate1]: 0,
-      [candidate2]: 0,
-    });
   }
 
   const voteForCandidate = (candidate: string) => {
-    console.log(`Voted for ${candidate}`);
-    setVotes((prevVotes) => {
-      return {...prevVotes, [candidate]: prevVotes[candidate] + 1}
-    })
+    if (contract) {
+      contract.vote(candidate);
+    } else {
+      console.error('Contract is not defined');
+    }
+    console.log('Voted for ' + candidate);
   }
 
-  const declareWinner = () => {
-    if (votes[candidate1] > votes[candidate2]) {
-      return 'The winner is ' + candidate1;
-    } else if (votes[candidate1] < votes[candidate2]) {
-      return 'The winner is ' + candidate2;
-    } else {
-      return 'It is a tie';
+  const declareWinner = async () => {
+    if (contract) {
+      try {
+        const end = await contract.endVoting();
+        await end.wait();
+        console.log("Voting has ended:", end);
+        setVotingStarted(false);
+        const winnerName = await contract.declareWinner();
+        console.log("Winner declared:", winnerName);
+        setWinner(winnerName);
+      } 
+      catch (error) {
+        console.error("Error is" + error);
+      }
     }
-  }
+  };
+
+  const onClickConnect = async () => {
+    // Check if MetaMask is installed
+    if (!window.ethereum) {
+      alert("Please install MetaMask");
+      return;
+    }
+  
+    // Connect to MetaMask
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    try {
+      // Request account access
+      const accounts = await provider.send("eth_requestAccounts", []);
+      if (accounts.length > 0) setCurrentAccount(accounts[0]);
+  
+      // Get the signer
+      signer = provider.getSigner();
+  
+      // Create a new contract instance using the ABI and address from Foundry
+      const contract = new ethers.Contract(contractAddress, vote, signer);
+      setContract(contract);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -61,12 +102,17 @@ function App() {
         <button onClick={() => {voteForCandidate(candidate1)}}> Vote for {candidate1} </button>
         <button onClick={() => {voteForCandidate(candidate2)}}> Vote for {candidate2} </button>
         </div>
-        <button onClick={() => { setWinner(declareWinner())}}> End Voting </button>
+        <button onClick={declareWinner}> End Voting </button>
         {winner !== '' && (
           <h3 className='text-center'> {winner}! </h3>
         )}
         </div>
         </> )} 
+
+        <div className='d-flex justify-content-center gap-3 mt-4'>
+        {account ? <p>Connected: {account}</p> : 
+        <button onClick={onClickConnect}>Connect to MetaMask</button>}         
+         </div>
 
         
       </div>
