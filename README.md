@@ -1,5 +1,7 @@
 # Welcome to building your first Web3 dApp @ HackSC-2024! 💻 ⭐️ 🥳
 
+To navigate to running instructions, click here: [link](#follow-the-instructions-below-to-run-your-app)
+
 
 ## Initial Setup 
 Navigate to frontend folder in terminal
@@ -158,6 +160,21 @@ function declareWinner() public view returns (string memory) {
 We don't need to check if voting started here because our frontend (App.tsx) always calls endVoting before we call declareWinner.
 
 Then, we return the candidate with more votes in the votesCandidate[num] state variable. If the votes are equal, we return a tie.
+
+
+## Finish
+
+Lastly, add a final `}` to the end of the file to finish the contract!
+
+## Congrats on your first Web3 dApp! 🥳
+
+### Follow the instructions below to run your app:
+Navigate to frontend in terminal and run 
+- `npm install` 
+- `npm run dev`
+- Navigate to http://localhost:3000/
+
+
 
 
 
