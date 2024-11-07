@@ -3,6 +3,12 @@
 To navigate to running instructions, click here: [link](#follow-the-instructions-below-to-run-your-app)
 
 
+### Environment Setup
+
+- Fork the repo at https://github.com/BlockchainUSC/HackSC-2024/ 
+- Navigate to the folder where you want to store your repo in your terminal
+- Clone the repo by typing `git clone <URL>`, where `<URL>` is the link that appears after hitting the green **Code** button in the top right of your repo.
+
 ## Initial Setup 
 Navigate to frontend folder in terminal
 
@@ -162,9 +168,108 @@ We don't need to check if voting started here because our frontend (App.tsx) alw
 Then, we return the candidate with more votes in the votesCandidate[num] state variable. If the votes are equal, we return a tie.
 
 
-## Finish
+## Finish Contract
 
 Lastly, add a final `}` to the end of the file to finish the contract!
+
+
+## Adding your environment variables
+
+Create a file called `.env`  in your blockchain folder (don't place it in any subfolders)
+
+>Add your MetaMask private key to the top of the .env file using the following format:
+`PRIVATE_KEY="<YOUR-PRIVATE-KEY>"`
+
+You can access your MetaMask private key by:
+- Clicking on your extension
+- Hitting the top 3 vertical ellipses in the top right
+- Clicking on Account Details
+- View the image below for a visual aid
+
+![alt text](image.png)
+
+Then, navigate to your [Alchemy Dashboard](https://dashboard.alchemy.com/)
+
+- Create a New App
+- Give it a name (i.e. Voting App)
+- Select any Use Case
+- Choose _*Ethereum*_ as your chain
+- Click **Create App**
+- Navigate to the networks tab
+- Click on the dropdown next to Ethereum and choose Sepolia. An image is added below for visual aid
+![alt text](image-1.png)
+- Copy the link that begins with https://eth-sepolia.g.alchemy.com/v2/...
+
+>Add your Alchemy API URL to the .env file using the following format:
+`API_URL="<YOUR-ALCHEMY-URL>"`
+
+
+## Updating hardhat.config.ts
+
+Navigate to blockchain/hardhat.config.ts in your file editor and update it to the following code:
+```typescript
+import { HardhatUserConfig } from "hardhat/config";
+import "@nomicfoundation/hardhat-toolbox";
+import { config as dotenvConfig } from "dotenv";
+
+dotenvConfig();
+
+const Private_Key = process.env.PRIVATE_KEY;
+const API_URL= process.env.API_URL;
+
+const config: HardhatUserConfig = {
+  solidity: "0.8.18",
+  networks: {
+    sepolia: {
+      url: `${API_URL}`,
+      accounts: [`0x${Private_Key}`],
+    },
+  },
+};
+
+export default config;
+```
+
+## Creating a Deploy Script
+- Navigate to blockchain/scripts/deploy.ts in your file editor
+- Update the deploy script to look like this:
+
+```typescript
+
+import { ethers } from "hardhat";
+
+async function main () {
+  // We get the contract to deploy
+ const vote = await ethers.deployContract("Voting");
+
+ console.log('Deploying Contract...');
+ //Program waits until counter is deployed before moving onto next line of code
+ await vote.waitForDeployment();
+
+ //prints the countract's target, its address on the blockchain
+console.log(`Voting deployed to: ${vote.target}`);
+}
+
+main()
+  .then(() => process.exit(0))
+  .catch(error => {
+    console.error(error);
+    process.exit(1);
+  });
+
+```
+
+## Deply your Smart Contract
+
+Navigate to the blockchain folder in your terminal
+
+- Run `npx hardhat compile` to compile the smart contract
+- Run `npx hardhat run scripts/deploy.ts --network sepolia` to run the script to deploy the smart contract
+
+You should see an output like:
+
+>Counter deployed to: 0x75F7921BB70b3C6c0e88a0808C335F9d369fEbC3
+
 
 ## Congrats on your first Web3 dApp! 🥳
 
