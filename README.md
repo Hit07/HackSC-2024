@@ -271,8 +271,17 @@ Navigate to the blockchain folder in your terminal
 
 You should see an output like:
 
->Counter deployed to: 0x75F7921BB70b3C6c0e88a0808C335F9d369fEbC3
+>Voting deployed to: 0x75F7921BB70b3C6c0e88a0808C335F9d369fEbC3
 
+## Integrate your frontend with your contract
+- Copy the address of the voting contract
+- You can view the transaction by navigating to [https://sepolia.etherscan.io/](url) and entering the addresss in the search bar. You should be able to see your contract creation transaction.
+- Open frontend/src/App.tsx in your file editor.
+- Replace the `const contractAddress = "";` on line 15 with your contract's address. Place it inside of the quotes. It should look like `const contractAddress = "0x...";`
+- Open blockchain/artifacts/contracts/Voting.sol and copy the Voting.json file
+- Place the copied Voting.json file in the **frontend/src** folder
+- Uncomment the line that says `import vote from './Voting.json';` on line 6 of App.tsx
+- Uncomment the line that says `const contract = new ethers.Contract(contractAddress, vote.abi, signer);` on line 89 of App.tsx
 
 ## Congrats on your first Web3 dApp! 🥳
 
