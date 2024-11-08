@@ -20,7 +20,7 @@ Run `npm install`
 
 Run `npm install ethers@5`
 
-Run `npm run start` to view current frontend of our page
+Run `npm run dev` to view current frontend of our page
 
 ## Writing our Smart Contract
  
