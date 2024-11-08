@@ -267,6 +267,7 @@ main()
 
 Navigate to the blockchain folder in your terminal
 
+- Run `npm install` to install necessary dependencies
 - Run `npx hardhat compile` to compile the smart contract
 - Run `npx hardhat run scripts/deploy.ts --network sepolia` to run the script to deploy the smart contract
 
