@@ -5,6 +5,8 @@ To navigate to running instructions, click  [here](#follow-the-instructions-belo
 
 To navigate to creating a MetaMask/Crypto Wallet click [here](#how-to-get-sepolia-test-eth) 
 
+To view finished code, navigate to _finish_ branch and run the codebase 
+
 ## Environment Setup
 
 - Fork the repo at https://github.com/BlockchainUSC/HackSC-2024/ 
