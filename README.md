@@ -1,9 +1,11 @@
 # Welcome to building your first Web3 dApp @ HackSC-2024! 💻 ⭐️ 🥳
 
-To navigate to running instructions, click here: [link](#follow-the-instructions-below-to-run-your-app)
+To navigate to running instructions, click  [here](#follow-the-instructions-below-to-run-your-app)
 
 
-### Environment Setup
+To navigate to creating a MetaMask/Crypto Wallet click [here](#how-to-get-sepolia-test-eth) 
+
+## Environment Setup
 
 - Fork the repo at https://github.com/BlockchainUSC/HackSC-2024/ 
 - Navigate to the folder where you want to store your repo in your terminal
@@ -278,6 +280,27 @@ Navigate to frontend in terminal and run
 - `npm install` 
 - `npm run dev`
 - Navigate to http://localhost:3000/
+
+
+
+# Supplemental Information
+
+### Setting up Your MetaMask Wallet 💰
+Prerequisites:
+- Google Chrome Extension
+1. Go to https://metamask.io/
+2. Select Download and Install for Chrome 
+3. Select Create New Wallet
+4. Create your password
+5. Secure your wallet and write down your secret recovery phrase 
+6. Now, your wallet is all set up for use in our projects!
+
+### How to get Sepolia Test ETH
+1. Navigate to https://cloud.google.com/application/web3/faucet or https://www.alchemy.com/faucets/ethereum-sepolia and place your account's public address in the box.
+2. Hit Enter to secure your Sepolia Test ETH
+3. These faucets are designed to give developer Test ETH so you can explore Web3 development without needing to spend money.
+4. > 📌 **Note:** You may need 0.001 ETH in your account on Ethereum Mainnet to receive test ETH.
+
 
 
 
