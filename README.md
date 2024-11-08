@@ -18,8 +18,6 @@ Navigate to frontend folder in terminal
 
 Run `npm install`
 
-Run `npm install ethers@5`
-
 Run `npm run dev` to view current frontend of our page
 
 ## Writing our Smart Contract
